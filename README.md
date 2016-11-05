@@ -116,8 +116,8 @@ SQL:delete from list where a=1;
 ```
 * insert
 ```javascript
-SQL:insert into list (a,b) values (1,2);
 DB::model('list')->insert(array('a'=>1,'b'=>2));
+SQL:insert into list (a,b) values (1,2);
 
 DB::model('list')->where('a="hello"')->insert(array('a'=>1,'b'='2'));
 SQL:INSERT INTO list (a,b) SELECT (1,2) FROM VISUAL WHERE NOT EXISTS (SELECT * FROM list WHERE name="hello");
