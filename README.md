@@ -9,9 +9,9 @@ orm curd for the mysql
 
 ## how to use the cube-orm?
 ```javascript
-require __DIR__ . '/../com/cube/db/DB.php';
+require __DIR__ . '/../cube/db/DB.php';
 
-use com\cube\db\DB;
+use cube\db\DB;
 
 
 $config = [
