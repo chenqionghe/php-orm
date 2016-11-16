@@ -6,9 +6,9 @@
  * Time: 下午1:13
  */
 
-require __DIR__ . '/../com/cube/db/DB.php';
+require __DIR__ . '/../cube/orm/DB.php';
 
-use com\cube\db\DB;
+use cube\orm\DB;
 
 
 $config = [

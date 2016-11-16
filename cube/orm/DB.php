@@ -6,14 +6,19 @@
  * Time: 下午10:54
  */
 
-namespace com\cube\db;
+namespace cube\orm;
+
+//extension check.
+if (DB::check_unknown_extension(['pdo','pdo_mysql'])) {
+    throw new \Exception('PDO Ext Error.');
+}
 
 /**
  * Class DB For the sql database :).
  * For sql.
  * You must setup the pdo extension before you use the DB.
  *
- * @package com\cube\db
+ * @package cube\orm
  */
 final class DB
 {
@@ -30,8 +35,8 @@ final class DB
      *  'port'=>3306,
      *  'user'=>'root',
      *  'password'=>'',
-     *  'db'=>'system',
-     *  'prefix'=>'db prefix such as google_x_'
+     *  'orm'=>'system',
+     *  'prefix'=>'orm prefix such as google_x_'
      * )
      *
      * @var
@@ -43,6 +48,25 @@ final class DB
      * @var
      */
     private static $pdo;
+
+    /**
+     * check the needed extensions.
+     * @param $plugins
+     * @return bool
+     */
+    public static function check_unknown_extension($extension = null)
+    {
+        $env_extensions = get_loaded_extensions();
+        foreach ($env_extensions as $key => $ext) {
+            $env_extensions[$key] = strtolower($ext);
+        }
+        foreach ($extension as $ext) {
+            if (!in_array($ext, $env_extensions)) {
+                return $ext;
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -59,16 +83,16 @@ final class DB
     }
 
     /**
-     * create db orm instance.
+     * create orm orm instance.
      * DB::model('list');
      *
-     * @param $name database list name
+     * @param $tableName database list name(not contains table prefix)
      * @return DBModel
      */
-    public static function model($name)
+    public static function model($tableName)
     {
         if (empty(self::$options)) {
-            throw new \Exception('No db options.');
+            throw new \Exception('No orm options.');
         }
 
         $options = self::$options;
@@ -84,7 +108,7 @@ final class DB
             }
         }
 
-        return new DBModel(empty($options['prefix']) ? $name : ($options['prefix'] . $name));
+        return new DBModel(!$options['prefix'] ? $tableName : ($options['prefix'] . $tableName));
     }
 
     /**
@@ -153,9 +177,10 @@ final class DB
     /**
      * Get PDO Statement.
      * @param $sql
+     * @param $task
      * @return null
      */
-    public static function value($sql, $task)
+    public static function value($sql, $task = false)
     {
         if (!empty(self::$pdo)) {
             try {
@@ -193,7 +218,7 @@ final class DB
 /**
  * Class DBModel.
  * sql orm model unit.
- * @package com\cube\db
+ * @package com\cube\orm
  */
 class DBModel
 {
@@ -510,6 +535,11 @@ class DBModel
     }
 }
 
+
+/**
+ * Class Log.
+ * @package com\cube\orm
+ */
 final class Log
 {
     private static $logs = '';
