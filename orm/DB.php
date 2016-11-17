@@ -6,11 +6,14 @@
  * Time: 下午10:54
  */
 
-namespace cube\orm;
+namespace orm;
+
+use log\Log;
+use utils\Utils;
 
 //extension check.
-if (DB::check_unknown_extension(['pdo','pdo_mysql'])) {
-    throw new \Exception('PDO Ext Error.');
+if ($ext = Utils::is_miss_ext(['pdo', 'pdo_mysql'])) {
+    throw new \Exception('Ext ' . $ext . ' is not exist!');
 }
 
 /**
@@ -97,15 +100,11 @@ final class DB
 
         $options = self::$options;
         if (empty(self::$pdo)) {
-            try {
-                self::$pdo = new \PDO(
-                    $options['type'] . ':host=' . $options['host'] . ';port=' . $options['port'] . ';dbname=' . $options['db'],
-                    $options['user'],
-                    $options['password']
-                );
-            } catch (\PDOException $e) {
-                Log::mysql('Error ' . $e->getTraceAsString());
-            }
+            self::$pdo = new \PDO(
+                $options['type'] . ':host=' . $options['host'] . ';port=' . $options['port'] . ';dbname=' . $options['db'],
+                $options['username'],
+                $options['password']
+            );
         }
 
         return new DBModel(!$options['prefix'] ? $tableName : ($options['prefix'] . $tableName));
@@ -159,9 +158,9 @@ final class DB
                 if ($task == true) {
                     self::$pdo->beginTransaction();
                 }
-                $stat = self::$pdo->query($sql);
-                $result = $stat->fetchAll(\PDO::FETCH_ASSOC);
-                if ($result !== false) {
+                $result = null;
+                if ($stat = self::$pdo->query($sql)) {
+                    $result = $stat->fetchAll(\PDO::FETCH_ASSOC);
                     if ($task == true) self::$pdo->commit();
                 } else {
                     if ($task == true) self::$pdo->rollBack();
@@ -188,11 +187,11 @@ final class DB
                 if ($task == true) {
                     self::$pdo->beginTransaction();
                 }
-                $stat = self::$pdo->query($sql);
-                $result = $stat->fetchColumn();
-                if ($result !== false) {
+                $result = null;
+                if ($stat = self::$pdo->query($sql)) {
+                    $result = $stat->fetchColumn();
                     if ($task == true) self::$pdo->commit();
-                } else {
+                }else{
                     if ($task == true) self::$pdo->rollBack();
                 }
                 return $result;
@@ -532,25 +531,5 @@ class DBModel
             return false;
         }
         return DB::exec($sql, $this->_task);
-    }
-}
-
-
-/**
- * Class Log.
- * @package com\cube\orm
- */
-final class Log
-{
-    private static $logs = '';
-
-    public static function mysql($value)
-    {
-        self::$logs .= $value . '\n\t';
-    }
-
-    public static function getLog()
-    {
-        return self::$logs;
     }
 }
