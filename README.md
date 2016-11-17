@@ -1,11 +1,11 @@
-# orm
+# php-orm
 orm curd for the mysql
 
 ## cube-php/orm needs
 * POD Ext.
 
-## cube-php/framework contains the orm.
-* <a href='https://github.com/cube-group/php-orm'>click me , and go to check the php-orm lib</a>
+## cube-group/php-mvc-express contains this lib.
+* <a href='https://github.com/cube-group/php-mvc-express'>click me , and go to check the php-mvc-express</a>
 
 ## how to use the cube-orm?
 ```javascript
