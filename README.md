@@ -4,8 +4,8 @@ orm curd for the mysql
 ## cube-php/orm needs
 * POD Ext.
 
-## cube-group/php-mvc-express contains this lib.
-* <a href='https://github.com/cube-group/php-mvc-express'>click me , and go to check the php-mvc-express</a>
+## cube-group/php-orm.
+* <a href='https://github.com/cube-group/php-orm'>click me , and go to check the php-orm</a>
 
 ## how to use the cube-orm?
 ```javascript
@@ -31,13 +31,13 @@ DB::init([
 print_r(DB::model('user')->select());
 ```
 
-## Class com\cube\db\DB
+## Class orm\DB
 *  static init($options);// init db config
 *  static model($tableName);//get the orm instance
 *  static query($sql,$task = false);
 *  static exec($sql,$task = true);
 
-## Class com\cube\db\DBModel
+## Class orm\DBModel
 *  __construct($tableName);
 *  task(); // return the DBModel ,the sql will executed as the task when you use this
 *  where($options);//return the DBModel

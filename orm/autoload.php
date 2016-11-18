@@ -158,13 +158,14 @@ final class DB
                 if ($task == true) {
                     self::$pdo->beginTransaction();
                 }
-                $result = null;
+
                 if ($stat = self::$pdo->query($sql)) {
                     $result = $stat->fetchAll(\PDO::FETCH_ASSOC);
                     if ($task == true) self::$pdo->commit();
                 } else {
                     if ($task == true) self::$pdo->rollBack();
                 }
+
                 return $result;
             } catch (\PDOException $e) {
                 Log::mysql($sql . ' => Error ' . $e->getTraceAsString());
@@ -187,13 +188,14 @@ final class DB
                 if ($task == true) {
                     self::$pdo->beginTransaction();
                 }
-                $result = null;
+
                 if ($stat = self::$pdo->query($sql)) {
                     $result = $stat->fetchColumn();
                     if ($task == true) self::$pdo->commit();
                 }else{
                     if ($task == true) self::$pdo->rollBack();
                 }
+
                 return $result;
             } catch (\PDOException $e) {
                 Log::mysql($sql . ' => Error ' . $e->getTraceAsString());

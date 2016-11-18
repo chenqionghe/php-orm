@@ -11,7 +11,7 @@ require __DIR__ . '/utils/Utils.php';
 require __DIR__ . '/fs/FS.php';
 require __DIR__ . '/log/Log.php';
 //Core Library
-require __DIR__ . '/orm/DB.php';
+require __DIR__ . '/orm/autoload.php';
 
 use orm\DB;
 
