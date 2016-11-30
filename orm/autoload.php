@@ -192,7 +192,7 @@ final class DB
                 if ($stat = self::$pdo->query($sql)) {
                     $result = $stat->fetchColumn();
                     if ($task == true) self::$pdo->commit();
-                }else{
+                } else {
                     if ($task == true) self::$pdo->rollBack();
                 }
 
@@ -445,7 +445,7 @@ class DBModel
             $sql .= ' ORDER BY ' . $this->_group;
         }
         if (!empty($this->_limit)) {
-            $sql .= ' LIMIT ' . $this->_group;
+            $sql .= ' LIMIT ' . $this->_limit;
         }
         $sql .= ';';
         return DB::query($sql, $this->_task);

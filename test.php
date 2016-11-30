@@ -7,9 +7,9 @@
  */
 
 //Dependency Library
-require __DIR__ . '/utils/Utils.php';
-require __DIR__ . '/fs/FS.php';
-require __DIR__ . '/log/Log.php';
+require __DIR__ . '/utils/autoload.php';
+require __DIR__ . '/fs/autoload.php';
+require __DIR__ . '/log/autoload.php';
 //Core Library
 require __DIR__ . '/orm/autoload.php';
 
